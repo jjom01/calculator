@@ -28,10 +28,7 @@ body {
   font-size: 18px;
 }
 
-#clear {
-  grid-column: span 3;
-}
-
+#clear,
 #equals {
   grid-column: span 3;
 }

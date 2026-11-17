@@ -27,11 +27,13 @@ function operate(operator, a, b) {
   }
 }
 
+// The calculator's memory
 let firstNumber = 0;
 let operator;
 let secondNumber;
 let justCalculated = false;
 
+// Things on the page
 const display = document.querySelector("#display");
 const digitButtons = document.querySelectorAll(".digit");
 const operatorButtons = document.querySelectorAll(".operator");
@@ -48,6 +50,7 @@ function updateDisplay() {
 
 function addDigit(digit) {
   if (operator === undefined) {
+    // After a result, a new digit starts a new number
     if (justCalculated) {
       firstNumber = 0;
       justCalculated = false;
@@ -84,20 +87,16 @@ function clearAll() {
   updateDisplay();
 }
 
-digitButtons.forEach(function (button) {
-  button.addEventListener("click", function () {
-    addDigit(Number(button.textContent));
-  });
-});
+// Button clicks
+for (const button of digitButtons) {
+  button.addEventListener("click", () => addDigit(Number(button.textContent)));
+}
 
-operatorButtons.forEach(function (button) {
-  button.addEventListener("click", function () {
-    setOperator(button.textContent);
-  });
-});
+for (const button of operatorButtons) {
+  button.addEventListener("click", () => setOperator(button.textContent));
+}
 
 equalsButton.addEventListener("click", calculate);
-
 clearButton.addEventListener("click", clearAll);
 
 updateDisplay();
