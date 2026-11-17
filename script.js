@@ -63,6 +63,8 @@ function addDigit(digit) {
 }
 
 function setOperator(newOperator) {
+  // If both numbers are in, finish that pair first (does nothing otherwise)
+  calculate();
   operator = newOperator;
   secondNumber = undefined;
   justCalculated = false;
@@ -72,7 +74,14 @@ function calculate() {
   if (operator === undefined || secondNumber === undefined) {
     return;
   }
-  firstNumber = operate(operator, firstNumber, secondNumber);
+  if (operator === "/" && secondNumber === 0) {
+    alert("Nice try! You can't divide by zero.");
+    clearAll();
+    return;
+  }
+  const result = operate(operator, firstNumber, secondNumber);
+  // Round long decimals so they fit on the display
+  firstNumber = Math.round(result * 1000000) / 1000000;
   operator = undefined;
   secondNumber = undefined;
   justCalculated = true;
