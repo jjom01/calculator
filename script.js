@@ -31,12 +31,13 @@ function operate(operator, a, b) {
 let firstNumber = 0;
 let operator;
 let secondNumber;
-let justCalculated = false;
+let entry = ""; // the number being typed, as text (so "12." can exist)
 
 // Things on the page
 const display = document.querySelector("#display");
 const digitButtons = document.querySelectorAll(".digit");
 const operatorButtons = document.querySelectorAll(".operator");
+const decimalButton = document.querySelector("#decimal");
 const equalsButton = document.querySelector("#equals");
 const clearButton = document.querySelector("#clear");
 
@@ -46,25 +47,43 @@ function roundForDisplay(number) {
 }
 
 function updateDisplay() {
-  if (operator !== undefined && secondNumber !== undefined) {
-    display.textContent = roundForDisplay(secondNumber);
+  if (entry !== "") {
+    display.textContent = entry;
   } else {
     display.textContent = roundForDisplay(firstNumber);
   }
+  // Only one decimal point per number
+  decimalButton.disabled = entry.includes(".");
+}
+
+// Save what was typed into the first or second number
+function saveEntry() {
+  if (operator === undefined) {
+    firstNumber = Number(entry);
+  } else {
+    secondNumber = Number(entry);
+  }
+  updateDisplay();
 }
 
 function addDigit(digit) {
-  if (operator === undefined) {
-    // After a result, a new digit starts a new number
-    if (justCalculated) {
-      firstNumber = 0;
-      justCalculated = false;
-    }
-    firstNumber = firstNumber * 10 + digit;
-  } else {
-    secondNumber = (secondNumber || 0) * 10 + digit;
+  // No leading zeros
+  if (entry === "0") {
+    entry = "";
   }
-  updateDisplay();
+  entry = entry + digit;
+  saveEntry();
+}
+
+function addDecimal() {
+  if (entry.includes(".")) {
+    return;
+  }
+  if (entry === "") {
+    entry = "0";
+  }
+  entry = entry + ".";
+  saveEntry();
 }
 
 function setOperator(newOperator) {
@@ -72,7 +91,8 @@ function setOperator(newOperator) {
   calculate();
   operator = newOperator;
   secondNumber = undefined;
-  justCalculated = false;
+  entry = "";
+  updateDisplay();
 }
 
 function calculate() {
@@ -87,7 +107,7 @@ function calculate() {
   firstNumber = operate(operator, firstNumber, secondNumber);
   operator = undefined;
   secondNumber = undefined;
-  justCalculated = true;
+  entry = "";
   updateDisplay();
 }
 
@@ -95,19 +115,20 @@ function clearAll() {
   firstNumber = 0;
   operator = undefined;
   secondNumber = undefined;
-  justCalculated = false;
+  entry = "";
   updateDisplay();
 }
 
 // Button clicks
 for (const button of digitButtons) {
-  button.addEventListener("click", () => addDigit(Number(button.textContent)));
+  button.addEventListener("click", () => addDigit(button.textContent));
 }
 
 for (const button of operatorButtons) {
   button.addEventListener("click", () => setOperator(button.textContent));
 }
 
+decimalButton.addEventListener("click", addDecimal);
 equalsButton.addEventListener("click", calculate);
 clearButton.addEventListener("click", clearAll);
 
