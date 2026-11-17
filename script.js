@@ -40,11 +40,16 @@ const operatorButtons = document.querySelectorAll(".operator");
 const equalsButton = document.querySelector("#equals");
 const clearButton = document.querySelector("#clear");
 
+// Round only what we show, so the stored number keeps full precision
+function roundForDisplay(number) {
+  return Math.round(number * 1000000) / 1000000;
+}
+
 function updateDisplay() {
   if (operator !== undefined && secondNumber !== undefined) {
-    display.textContent = secondNumber;
+    display.textContent = roundForDisplay(secondNumber);
   } else {
-    display.textContent = firstNumber;
+    display.textContent = roundForDisplay(firstNumber);
   }
 }
 
@@ -79,9 +84,7 @@ function calculate() {
     clearAll();
     return;
   }
-  const result = operate(operator, firstNumber, secondNumber);
-  // Round long decimals so they fit on the display
-  firstNumber = Math.round(result * 1000000) / 1000000;
+  firstNumber = operate(operator, firstNumber, secondNumber);
   operator = undefined;
   secondNumber = undefined;
   justCalculated = true;
