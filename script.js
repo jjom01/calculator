@@ -40,6 +40,7 @@ const operatorButtons = document.querySelectorAll(".operator");
 const decimalButton = document.querySelector("#decimal");
 const equalsButton = document.querySelector("#equals");
 const clearButton = document.querySelector("#clear");
+const backspaceButton = document.querySelector("#backspace");
 
 // Round only what we show, so the stored number keeps full precision
 function roundForDisplay(number) {
@@ -60,6 +61,8 @@ function updateDisplay() {
 function saveEntry() {
   if (operator === undefined) {
     firstNumber = Number(entry);
+  } else if (entry === "") {
+    secondNumber = undefined;
   } else {
     secondNumber = Number(entry);
   }
@@ -83,6 +86,14 @@ function addDecimal() {
     entry = "0";
   }
   entry = entry + ".";
+  saveEntry();
+}
+
+function backspace() {
+  if (entry === "") {
+    return;
+  }
+  entry = entry.slice(0, -1);
   saveEntry();
 }
 
@@ -131,5 +142,6 @@ for (const button of operatorButtons) {
 decimalButton.addEventListener("click", addDecimal);
 equalsButton.addEventListener("click", calculate);
 clearButton.addEventListener("click", clearAll);
+backspaceButton.addEventListener("click", backspace);
 
 updateDisplay();
