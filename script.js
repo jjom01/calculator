@@ -144,4 +144,33 @@ equalsButton.addEventListener("click", calculate);
 clearButton.addEventListener("click", clearAll);
 backspaceButton.addEventListener("click", backspace);
 
+// Keyboard
+document.addEventListener("keydown", (event) => {
+  const key = event.key;
+
+  // Leave browser shortcuts alone (Cmd+R, Ctrl+-, ...)
+  if (event.ctrlKey || event.metaKey || event.altKey) {
+    return;
+  }
+
+  if (key >= "0" && key <= "9") {
+    addDigit(key);
+  } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+    setOperator(key);
+  } else if (key === ".") {
+    addDecimal();
+  } else if (key === "=" || key === "Enter") {
+    calculate();
+  } else if (key === "Backspace") {
+    backspace();
+  } else if (key === "c" || key === "C") {
+    clearAll();
+  } else {
+    return;
+  }
+
+  // Stops "/" from opening quick find and Enter from clicking a focused button
+  event.preventDefault();
+});
+
 updateDisplay();
