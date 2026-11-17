@@ -1,16 +1,28 @@
 body {
   background-color: white;
   color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  font-family: inherit;
 }
 
 #calculator {
   width: 240px;
-  border: 1px solid black;
+  border: 1px solid gray;
+  border-radius: 6px;
   padding: 10px;
 }
 
 #display {
-  border: 1px solid black;
+  border: 1px solid gray;
+  border-radius: 4px;
   padding: 10px;
   margin-bottom: 10px;
   text-align: right;
@@ -26,12 +38,19 @@ body {
 #buttons button {
   padding: 15px 0;
   font-size: 18px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+#clear,
+#equals {
+  grid-column: span 2;
 }
 
 #clear {
-  grid-column: span 2;
+  background-color: #f5c9a0;
 }
 
 #equals {
-  grid-column: span 2;
+  background-color: #8fd3c4;
 }
