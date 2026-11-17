@@ -27,6 +27,26 @@ function operate(operator, a, b) {
   }
 }
 
-let firstNumber;
+let firstNumber = 0;
 let operator;
 let secondNumber;
+
+const display = document.querySelector("#display");
+const digitButtons = document.querySelectorAll(".digit");
+
+function updateDisplay() {
+  display.textContent = firstNumber;
+}
+
+function addDigit(digit) {
+  firstNumber = firstNumber * 10 + digit;
+  updateDisplay();
+}
+
+digitButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    addDigit(Number(button.textContent));
+  });
+});
+
+updateDisplay();
