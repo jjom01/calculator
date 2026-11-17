@@ -42,7 +42,7 @@ const clearButton = document.querySelector("#clear");
 
 // Round only what we show, so the stored number keeps full precision
 function roundForDisplay(number) {
-  return Math.round(number * 1000000) / 1000000;
+  return Math.round(number * 1000) / 1000;
 }
 
 function updateDisplay() {
