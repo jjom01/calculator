@@ -36,6 +36,7 @@ const display = document.querySelector("#display");
 const digitButtons = document.querySelectorAll(".digit");
 const operatorButtons = document.querySelectorAll(".operator");
 const equalsButton = document.querySelector("#equals");
+const clearButton = document.querySelector("#clear");
 
 function updateDisplay() {
   if (operator !== undefined && secondNumber !== undefined) {
@@ -75,6 +76,14 @@ function calculate() {
   updateDisplay();
 }
 
+function clearAll() {
+  firstNumber = 0;
+  operator = undefined;
+  secondNumber = undefined;
+  justCalculated = false;
+  updateDisplay();
+}
+
 digitButtons.forEach(function (button) {
   button.addEventListener("click", function () {
     addDigit(Number(button.textContent));
@@ -88,5 +97,7 @@ operatorButtons.forEach(function (button) {
 });
 
 equalsButton.addEventListener("click", calculate);
+
+clearButton.addEventListener("click", clearAll);
 
 updateDisplay();
